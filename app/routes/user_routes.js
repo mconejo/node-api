@@ -20,8 +20,8 @@ export default class User_Routes {
         }
     }
 
-    post(user, reply) {
-        newUser.save().exec(function (err) {
+    post(newUser, reply) {
+        newUser.save(function (err) {
           if(err) reply(`Error creating user: ${newUser.name}!`);
 
           reply(`User ${newUser.name} created sucessfully!`);
