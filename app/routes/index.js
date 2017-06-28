@@ -1,24 +1,13 @@
 'use strict';
 
 import User from '../models/user.js';
+import User_Routes from './user_routes.js'
 import DB from '../db.js';
 
 const db = new DB();
+const user_routes = new User_Routes();
 
 db.connect();
-
-// export default class Routes {
-//   let server;
-//
-//   constuctor (serv) {
-//     server = serv;
-//   }
-//
-//   userRoutes () {
-//
-//   };
-//
-// }
 
 module.exports = function (server) {
 
@@ -28,19 +17,7 @@ module.exports = function (server) {
     handler: function (request, reply) {
       const user = request.params.name;
 
-      if(user) {
-        User.findOne({name: user}, function(err, user){
-          if(err) reply(`Error retrieving user: ${user}!`);
-
-          reply({user: user});
-        });
-      } else {
-        User.find(function(err, users){
-          if(err) reply('Error retrieving users!');
-
-          reply({users: users});
-        });
-      }
+      user_routes.get(user, reply);
     }
   });
 
@@ -50,11 +27,7 @@ module.exports = function (server) {
     handler: function (request, reply) {
       let newUser = new User(request.payload);
 
-      newUser.save(function (err) {
-        if(err) reply(`Error creating user: ${newUser.name}!`);
-
-        reply(`User ${newUser.name} created sucessfully!`);
-      });
+      user_routes.post(newUser, reply);
     }
   });
 
