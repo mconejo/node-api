@@ -11,24 +11,35 @@ db.connect();
 
 module.exports = function (server) {
 
-  server.route({
-    method: 'GET',
-    path: `/user/{name?}`,
-    handler: function (request, reply) {
-      const user = request.params.name;
+    server.route({
+        method: 'GET',
+        path: `/user/{name?}`,
+        handler: function (request, reply) {
+            let user = request.params.name;
 
-      user_routes.get(user, reply);
-    }
-  });
+            user_routes.get(user, reply);
+        }
+    });
 
-  server.route({
-    method: 'POST',
-    path: `/user`,
-    handler: function (request, reply) {
-      let newUser = new User(request.payload);
+    server.route({
+        method: 'POST',
+        path: `/user`,
+        handler: function (request, reply) {
+            let newUser = new User(request.payload);
 
-      user_routes.post(newUser, reply);
-    }
-  });
+            user_routes.post(newUser, reply);
+        }
+    });
+
+    server.route({
+        method: 'PUT',
+        path: `/user/{id}`,
+        handler: function (request, reply) {
+            let user = new User(request.payload),
+                id = request.params.id;
+
+            user_routes.put(id, user, reply);
+        }
+    });
 
 }
