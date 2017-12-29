@@ -13,9 +13,9 @@ module.exports = function (server) {
 
     server.route({
         method: 'GET',
-        path: `/user/{name?}`,
+        path: `/user/{id?}`,
         handler: function (request, reply) {
-            let user = request.params.name;
+            let user = request.params.id;
 
             user_routes.get(user, reply);
         }
